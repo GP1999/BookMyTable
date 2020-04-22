@@ -34,7 +34,7 @@ router.get('/:id',function(req,res,next){
     let restaurant_name=req.params.id;
     console.log(restaurant_name);
     db.get().collection("Restaurant").findOne({Name:restaurant_name},{projection:{_id:0,BookedBy:0}},function(err,result){
-        console.log(result);
+        console.log("Send");
         res.status(200).send(result);
     })
 

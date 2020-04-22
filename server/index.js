@@ -112,6 +112,7 @@ app.post('/register',function(req,res,next){
 app.get('/Media/:id',function(req,res,next){
 
     let imgpath=path.join(__dirname,'Media/'+req.params.id);
+    console.log(imgpath);
     res.sendFile(imgpath);
 
 

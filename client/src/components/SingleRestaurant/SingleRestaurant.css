@@ -1,0 +1,37 @@
+.carousal_container{
+    width:98%;
+    height: 400px;
+   
+    margin: auto;
+    margin-top: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.imgsize{
+    width: fit-content;
+    overflow: hidden;
+    object-fit: cover;
+    max-height: 400px;
+}
+.information{
+    margin-top: 10px;
+}
+.information h5{
+   font-size: smaller ;
+   font-family: 'Courier New', Courier, monospace;
+   text-align: center;
+}
+@media only screen and (max-width: 600px) {
+   
+    .carousal_container{
+        height: 250px;
+
+      
+    }
+    .imgsize{
+        width: fit-content;
+        overflow: hidden;
+        object-fit: cover;
+        height: 250px ; }
+  }
+  

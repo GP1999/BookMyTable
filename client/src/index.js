@@ -26,9 +26,9 @@ ReactDOM.render(
           <Route exact path="/Login">
             <Login />
           </Route>
-          <Route exact path="/restaurants/:id">
-            <SingleRestaurant />
-          </Route>
+          <Route exact path="/restaurants/:id" render={(props)=> <SingleRestaurant {...props}/>}/>
+            
+          
         </Switch>
     </Router>
     
