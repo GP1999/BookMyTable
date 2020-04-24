@@ -6,6 +6,7 @@ import Login from './components/Login/Login.js';
 import Restaurants from './components/Restaurants/Restaurants.js';
 import Navbar from './components/Navigation/Navbar.js';
 import SingleRestaurant from './components/SingleRestaurant/SingleRestaurant.js';
+import Registration from './components/Registration/Registration.js';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
@@ -25,6 +26,9 @@ ReactDOM.render(
           </Route>
           <Route exact path="/Login">
             <Login />
+          </Route>
+          <Route exact path="/register">
+            <Registration />
           </Route>
           <Route exact path="/restaurants/:id" render={(props)=> <SingleRestaurant {...props}/>}/>
             

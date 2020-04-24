@@ -3,8 +3,16 @@ const express=require('express');
 const router=express.Router();
 const multer=require('multer');
 const path=require("path");
+const withAuth=require('../Middlewares/withAuthenticate.js');
+const jwt=require('jsonwebtoken');
+const bodyParser=require('body-parser');
+const cookieParser=require('cookie-parser');
 
 //Multer destinantion and file path object
+let mySecret="gauravponkiya";
+router.use(bodyParser.urlencoded({ extended: false }))
+router.use(bodyParser.json());
+
 let storage=multer.diskStorage({
     destination:function(req,res,cb){
         //Photos is uploaded to file Media in root directory
@@ -65,5 +73,52 @@ router.post("/register",upload.array('Photos',5),function(req,res,next){
         res.status(200).send("Registerd successfully");
     });
 
+});
+router.post('/book',withAuth,function(req,res,next){
+   // console.log(req);
+    let {email,date,time,seats,name,contact}=req.body;
+    
+    let booking={
+        
+        Email:email,Date:date,Time:time,Seats:seats,Name:name,Contact:contact
+    }
+
+    let token=req.cookies.token;
+      let Usermail;
+
+    jwt.verify(token,mySecret,function(err,decod){
+
+        Usermail=decod.email;
+        db.get().collection("Bookings").insertOne(booking,function(err,Result){
+            if(err)
+            res.status(404).send("Internal server Error");
+            else
+            {
+    
+               //console.log(Result);
+                db.get().collection("User").findAndModify({email:Usermail},  [['_id','asc']],  {$push: {Booking:Result.ops[0]._id}},{new:true},function(err,object){
+                  // console.log(object);
+                  if(err)
+                  console.log(err);
+                }
+                );
+            
+                db.get().collection("Restaurant").findAndModify({Email:email},  [['_id','asc']],  {$push: {BookedBy:Result.ops[0]._id}},{new:true},function(err,object){
+                   // console.log(object);
+                   if(err)
+                   console.log(err);
+                 }
+                 );
+                                     
+                res.status(200).send("Booking Success full");
+            }
+
+    });
 })
+    
+
+    
+    } 
+);
+
 module.exports=router;

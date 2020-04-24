@@ -30,7 +30,7 @@ class Navbar extends React.Component{
             if(this.state.Authenticate)
             return <span></span>;
             else
-            return <span className="navbar-text actions"> <a className="login" href="/Login" >Log In</a><a className="btn btn-light action-button" role="button" href="#">Sign Up</a></span>;
+            return <span className="navbar-text actions"> <a className="login" href="/Login" >Log In</a><a className="btn btn-light action-button" role="button" href="/register">Sign Up</a></span>;
     
        
     }

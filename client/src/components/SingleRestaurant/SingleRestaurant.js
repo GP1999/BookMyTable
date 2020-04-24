@@ -20,9 +20,7 @@ class SingleRestaurant extends React.Component{
         }).then(function(res){
            doc.setState({
                data:res
-           });
-           
-           
+           });       
         })
     }
     render()
@@ -56,14 +54,12 @@ class SingleRestaurant extends React.Component{
                 </div>
                 </div>
                  <div className="information">
-        <h5>Address:{this.state.data.Address}</h5>
-        <h5>Email:{this.state.data.Email}</h5>
-        <h5>Available Seats:{this.state.data.Seats}</h5>
-        <h5>Contact:{this.state.data.Contact}</h5>
-
-
+                <h5>Address:{this.state.data.Address}</h5>
+                <h5>Email:{this.state.data.Email}</h5>
+                <h5>Available Seats:{this.state.data.Seats}</h5>
+                <h5>Contact:{this.state.data.Contact}</h5>
                  </div>
-                            </section>
+                </section>
 
           
         );
