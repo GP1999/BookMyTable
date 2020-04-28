@@ -74,13 +74,19 @@ router.post("/register",upload.array('Photos',5),function(req,res,next){
     });
 
 });
+//Book the table
 router.post('/book',withAuth,function(req,res,next){
    // console.log(req);
-    let {email,date,time,seats,name,contact}=req.body;
-    
+    let {email,time,seats,name,contact,AM_PM}=req.body;
+    //Create Object for Booking after 1 houre of expireAt time
+    if(AM_PM==='PM')
+             time+=12;
+    let date=new Date();
+    let expire=new Date(date.getFullYear(),date.getMonth(),date.getDay(),time,0,0);
     let booking={
+        expireAt:expire,
         
-        Email:email,Date:date,Time:time,Seats:seats,Name:name,Contact:contact
+        Email:email,Time:time,Seats:seats,Name:name,Contact:contact
     }
 
     let token=req.cookies.token;
@@ -90,21 +96,24 @@ router.post('/book',withAuth,function(req,res,next){
 
         Usermail=decod.email;
         db.get().collection("Bookings").insertOne(booking,function(err,Result){
+
             if(err)
             res.status(404).send("Internal server Error");
             else
             {
-    
-               //console.log(Result);
+                 //On inserting in Booking table now insert id of booking in both user 
+                 //and restaurant
+                console.log(Result);
+        
                 db.get().collection("User").findAndModify({email:Usermail},  [['_id','asc']],  {$push: {Booking:Result.ops[0]._id}},{new:true},function(err,object){
-                  // console.log(object);
+                
                   if(err)
                   console.log(err);
                 }
                 );
             
                 db.get().collection("Restaurant").findAndModify({Email:email},  [['_id','asc']],  {$push: {BookedBy:Result.ops[0]._id}},{new:true},function(err,object){
-                   // console.log(object);
+                
                    if(err)
                    console.log(err);
                  }
@@ -114,10 +123,7 @@ router.post('/book',withAuth,function(req,res,next){
             }
 
     });
-})
-    
-
-    
+});
     } 
 );
 

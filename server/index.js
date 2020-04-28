@@ -8,6 +8,7 @@ const withAuth=require('./Middlewares/withAuthenticate.js');
 const multer=require('multer');
 const path=require('path');
 const cors=require('cors');
+const async=require('async');
 
 const app=express();
 let DBConnection;
@@ -121,5 +122,58 @@ app.get('/',function(req,res,next){
     res.sendFile(path.join(__dirname,'index.html'),{'Content-type':'text/html'});
    
 });
+app.get('/MyBookings',withAuth,function(req,res,next){
+
+    let token=req.cookies.token;
+      let Usermail;
+      let MyBookings=[];
+    
+
+    jwt.verify(token,mySecret,function(err,decod){
+        Usermail=decod.email;
+        DBConnection.collection("User").findOne({email:Usermail},function(err,Result){
+            if(err)
+            console.log(err);
+            else
+            {
+              //  getBookings(Result);
+              
+
+            async.everySeries(Result.Booking,function(element,callback){
+                console.log(element);
+                DBConnection.collection("Bookings").findOne({_id:element},function(err,book){
+                    if(!err && book)
+                   { 
+                      // console.log(book);
+                       MyBookings.push(book);
+                       callback(null,!err);
+                    }
+                    else
+                    {
+                        DBConnection.collection("User").updateOne({email:Usermail},{$pull:{Booking:element}},function(err,data){
+                            callback(null,!err);
+                        });
+                    }
+                });
+
+
+
+            },function(err,Result){
+                console.log(MyBookings);
+                res.send(MyBookings);
+            })
+
+
+            
+            
+                
+            }
+        })
+           });
+          
+
+
+});
+
 
 
