@@ -137,42 +137,33 @@ app.get('/MyBookings',withAuth,function(req,res,next){
             else
             {
               //  getBookings(Result);
-              
-
             async.everySeries(Result.Booking,function(element,callback){
                 console.log(element);
                 DBConnection.collection("Bookings").findOne({_id:element},function(err,book){
-                    if(!err && book)
-                   { 
-                      // console.log(book);
-                       MyBookings.push(book);
-                       callback(null,!err);
-                    }
-                    else
-                    {
-                        DBConnection.collection("User").updateOne({email:Usermail},{$pull:{Booking:element}},function(err,data){
-                            callback(null,!err);
+                                if(!err && book)
+                            { 
+                                // console.log(book);
+                                MyBookings.push(book);
+                                callback(null,!err);
+                                }
+                                else
+                                {
+                                    DBConnection.collection("User").updateOne({email:Usermail},{$pull:{Booking:element}},function(err,data){
+                                        callback(null,!err);
+                                    });
+                                }
                         });
-                    }
-                });
 
 
 
-            },function(err,Result){
-                console.log(MyBookings);
-                res.send(MyBookings);
-            })
-
-
-            
-            
+                    },function(err,Result){
+                        console.log(MyBookings);
+                        res.send(MyBookings);
+              })       
                 
             }
         })
-           });
-          
-
-
+     });
 });
 
 

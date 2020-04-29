@@ -108,14 +108,18 @@ router.post('/book',withAuth,function(req,res,next){
                 db.get().collection("User").findAndModify({email:Usermail},  [['_id','asc']],  {$push: {Booking:Result.ops[0]._id}},{new:true},function(err,object){
                 
                   if(err)
-                  console.log(err);
+                {  console.log(err);
+                    res.status(400).send("Internal server Error");                }
                 }
                 );
             
                 db.get().collection("Restaurant").findAndModify({Email:email},  [['_id','asc']],  {$push: {BookedBy:Result.ops[0]._id}},{new:true},function(err,object){
                 
                    if(err)
-                   console.log(err);
+                   {
+                       console.log(err);
+                       res.status(400).send("Internal server Error");
+                   }
                  }
                  );
                                      
@@ -126,5 +130,7 @@ router.post('/book',withAuth,function(req,res,next){
 });
     } 
 );
+
+
 
 module.exports=router;

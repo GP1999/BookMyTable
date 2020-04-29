@@ -6,8 +6,19 @@ class SingleRestaurant extends React.Component{
     {
         super(props);
         this.state={
-            data:""
+            data:"",
+            email:"",
+            AM_PM:"",
+            seats:"",
+            contact:"",
+            time:"",
+            name:"",
+            message:""
+
+
         }
+        this.handleSubmit=this.handleSubmit.bind(this);
+        this.handleChange=this.handleChange.bind(this);
     }
     componentDidMount()
     {
@@ -23,10 +34,48 @@ class SingleRestaurant extends React.Component{
            });       
         })
     }
+    handleChange(event)
+    {
+        this.setState({
+            [event.target.name]:event.target.value
+        })
+    }
+    handleSubmit(event){
+        event.preventDefault();
+        let doc=this;
+        let data={email:this.state.email,AM_PM:this.state.AM_PM,contact:this.state.contact,
+            name:this.state.name,seats:this.state.seats,time:this.state.time};
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+        if(this.state.email&&this.state.AM_PM&&this.state.contact&&this.state.name&&this.state.seats&&this.state.time)
+      {
+        fetch('/restaurants/Book',requestOptions)
+        .then(function(res){
+            if(res.status===200)
+            {
+                doc.setState({message:"Booked successfully "});
+
+            }else
+            {
+                doc.setState({message:"Error! Something is wrong"});
+            }
+        });
+    }else
+    {
+        doc.setState({message:"Enter missing field"});
+    }
+       
+
+    }
+   
     render()
     {
         if(this.state.data){
         return(
+            <React.Fragment>
             <section>
 
                         <h3 className="text-center ">{this.state.data.Name}</h3>
@@ -60,7 +109,60 @@ class SingleRestaurant extends React.Component{
                 <h5>Contact:{this.state.data.Contact}</h5>
                  </div>
                 </section>
-
+               <section className="form_container">
+                  <h6 className="text-center text-success">{this.state.message}</h6>
+                   <h4>Booking Details</h4>
+                   <form onSubmit={this.handleSubmit}>
+                <div className="form-row">
+                    <div className="form-group col-md-6">
+                    <label htmlFor="inputEmail4">Email</label>
+                    <input type="email" className="form-control" id="inputEmail4" placeholder="Email" value={this.state.email} onChange={this.handleChange} name="email"/>
+                    </div>
+                    <div className="form-group col-md-6">
+                    <label htmlFor="Name">Name</label>
+                    <input type="text" className="form-control" id="inputPassword4" placeholder="Name" name="name" value={this.state.name} onChange={this.handleChange}/>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="contact">Contact</label>
+                    <input type="text" className="form-control" id="inputAddress" placeholder="contact" name="contact" value={this.state.contact} onChange={this.handleChange}/>
+                </div>
+                <div className="form-row">
+                    <div className="form-group col-md-6">
+                    <label htmlFor="seats">Seats</label>
+                    <input type="text" className="form-control" id="inputCity" name="seats" value={this.state.seats} onChange={this.handleChange}/>
+                    </div>
+                    <div className="form-group col-md-4">
+                    <label htmlFor="inputState">time</label>
+                    <select id="inputState" className="form-control" value={this.state.time} name="time" onChange={this.handleChange}>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    </div>
+                    <div className="form-group col-md-4">
+                    <label htmlFor="inputState">AM/PM</label>
+                    <select id="inputState2" className="form-control" name="AM_PM" value={this.state.AM_PM} onChange={this.handleChange}>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                       
+                    </select>
+                    </div>
+                    
+                </div>
+                <button type="submit" className="btn btn-primary">Book</button>
+                </form>
+            </section>
+       </React.Fragment>
           
         );
         }else

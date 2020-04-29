@@ -21,6 +21,10 @@
    font-family: 'Courier New', Courier, monospace;
    text-align: center;
 }
+.form_container{
+    width:60%;
+    margin: auto;
+}
 @media only screen and (max-width: 600px) {
    
     .carousal_container{
