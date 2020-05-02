@@ -7,6 +7,7 @@ import Restaurants from './components/Restaurants/Restaurants.js';
 import Navbar from './components/Navigation/Navbar.js';
 import SingleRestaurant from './components/SingleRestaurant/SingleRestaurant.js';
 import Registration from './components/Registration/Registration.js';
+import MyBookings from './components/MyBooking/MyBooking.js';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
@@ -31,7 +32,9 @@ ReactDOM.render(
             <Registration />
           </Route>
           <Route exact path="/restaurants/:id" render={(props)=> <SingleRestaurant {...props}/>}/>
-            
+          <Route exact path="/MyBookings" >
+          <MyBookings />
+          </Route>  
           
         </Switch>
     </Router>

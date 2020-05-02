@@ -46,7 +46,7 @@ class Navbar extends React.Component{
                     <li className="nav-item" role="presentation"><a className="nav-link" href="/" >Home</a></li>
                     <li className="nav-item" role="presentation"><a className="nav-link" href="About/">About</a></li>
                     <li className="nav-item dropdown"><a className="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Account</a>
-                        <div className="dropdown-menu" role="menu"><a className="dropdown-item" role="presentation" href="#">Profile</a><a className="dropdown-item" role="presentation" href="#">My Booking</a></div>
+                        <div className="dropdown-menu" role="menu"><a className="dropdown-item" role="presentation" href="#">Profile</a><a className="dropdown-item" role="presentation" href="/MyBookings">My Booking</a></div>
                     </li>
                    
         </ul>{this.AuthenticateOrNot()}</div>

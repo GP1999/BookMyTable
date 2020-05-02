@@ -157,7 +157,7 @@ app.get('/MyBookings',withAuth,function(req,res,next){
 
 
                     },function(err,Result){
-                        console.log(MyBookings);
+                      //  console.log(MyBookings);
                         res.send(MyBookings);
               })       
                 

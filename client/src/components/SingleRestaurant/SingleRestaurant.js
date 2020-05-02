@@ -6,6 +6,7 @@ class SingleRestaurant extends React.Component{
     {
         super(props);
         this.state={
+            restaurants_name:this.props.match.params.id,
             data:"",
             email:"",
             AM_PM:"",
@@ -44,7 +45,7 @@ class SingleRestaurant extends React.Component{
         event.preventDefault();
         let doc=this;
         let data={email:this.state.email,AM_PM:this.state.AM_PM,contact:this.state.contact,
-            name:this.state.name,seats:this.state.seats,time:this.state.time};
+            name:this.state.name,seats:this.state.seats,time:this.state.time,restaurants_name:this.state.restaurants_name};
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

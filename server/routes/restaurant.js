@@ -77,15 +77,18 @@ router.post("/register",upload.array('Photos',5),function(req,res,next){
 //Book the table
 router.post('/book',withAuth,function(req,res,next){
    // console.log(req);
-    let {email,time,seats,name,contact,AM_PM}=req.body;
+    let {email,time,seats,name,contact,AM_PM,restaurant_name}=req.body;
     //Create Object for Booking after 1 houre of expireAt time
+    console.log("restaurant:"+restaurant_name);
     if(AM_PM==='PM')
-             time+=12;
+       time=parseInt(time)+12;      ;
     let date=new Date();
+    console.log(date);
     let expire=new Date(date.getFullYear(),date.getMonth(),date.getDay(),time,0,0);
+    console.log(expire);
     let booking={
         expireAt:expire,
-        
+        Restaurant_name:restaurant_name,
         Email:email,Time:time,Seats:seats,Name:name,Contact:contact
     }
 
@@ -103,7 +106,7 @@ router.post('/book',withAuth,function(req,res,next){
             {
                  //On inserting in Booking table now insert id of booking in both user 
                  //and restaurant
-                console.log(Result);
+               // console.log(Result);
         
                 db.get().collection("User").findAndModify({email:Usermail},  [['_id','asc']],  {$push: {Booking:Result.ops[0]._id}},{new:true},function(err,object){
                 
